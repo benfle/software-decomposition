@@ -1,0 +1,95 @@
+#+TITLE: Decomposing Software
+#+AUTHOR: Benoit Fleury <me@benfle.com>
+* Introduction
+  * Presentation
+    * I am a Clojure contractor. I'm currently contracting with Cognitect.
+    * Thanks to softwareforgood for hosting us.
+    * And thanks to you for being here.
+  * We're going to talk today about software decomposition.
+  * The talk is in 2 parts.
+    * First, we're going to see why we decompose software? This part will be based on Christopher Alexander's book Notes on The Synthesis of Form. I think understanding why we decompose software will shed light on how to do it.
+    * The second part will look at how to decompose software. We're going to look at a series of decompositions inspired by David Parnas' Paper On The Criteria To BE Used in Decomposing Systems into Modules. But this paper has been written in 1972 and some progresses have been made since then regarding software decomposition. So we're going to extend the example in this paper to illustrate interesting ways to decompose software.
+  * Why is it important?
+    * Because it's a critical tool to manage complexity in software.
+    * It always apply, whatever hardware/software stack you're using.
+    * Because it has a direct impact on the quality of the software. (Shown in part I.)
+* Why?
+** Why do we decompose software?
+   * A few reasons
+     * Because decomposition is good.
+     * Shortens development time because separate groups can work on different modules.
+     * To simplify the problem (Divide & Conquer)
+     * To make the system more easily understandable.
+     * To make the system more flexible, make it easier to change individual parts of the system.
+   * I think that of all these reasons one is fundamental and will help us understand how we can decompose software: product flexibility.
+   * To understand what flexibility really means and why it is fundamental to the software process, to any design process actually, we can look at Christopher Alexander's Notes on the Synthesis of Form.
+** Who is Christopher Alexander
+   * Architect
+   * Many books written during the last 50 years. Same underlying idea.
+   * Design Patterns and Agile software development comes from him. So it's important to know about him.
+   * Continuity of his work from NoSoF to Nature of order
+     * No need to be familiar with his work, we start at the beginning: NoSoF
+** Notes on the Synthesis of Form
+   * Design problem?
+     * Definition of design problems: meet set of requirements but some of them are in conflict.
+     * Today's design problems are beyong the capabilities of individual designers.
+       * Too much information
+       * Complex problems
+       * Change frequently
+   * How can we simplify design problems?
+     * Refuse responsibility -> all based on intuition, artist
+     * "when a designer does not understand a problem clearly enough to find the order it really calls for, he falls back on some arbitrarily chosen formal order."
+     * styles: copy of past forms
+     * functional decomposition: what the book is about
+   * Let's go back to the definition of a design problem.
+     * Usually we understand a design problem as a list of requirements.
+       * The software must do this, and this, and this. It should not cost too much...
+     * Alexander is saying that:
+       * both the form and the context should be the subject of the design process
+       * we cannot list all the requirements
+         * too large
+         * but also limited to the categories we know and what we can measure.
+       * the only way to do it is by detecting misfit.
+         * This is a little asbtract but I think there is a parallel in software with testing. We never know if our software works perfectly, the best we can do is to write software that passes a set of tests. The goal of the tests is to detect these misfits. But tests are not enough. There are fundamental aspects of software that cannot be tested.
+       * These misfits are the forces from the context which much shape the form.
+       * "What does make design a problem in real world cases is that we are trying to make a diagram for forces whose field we do not understand."
+         * If we were able to list all the requirements for the form it wouldn't be a design problem.
+         * The best we can do is to list the most important and likely to occur misfits.
+     * Changing our view of the software design process:
+       * From: list of requirements -> product, done
+       * To: create order between for mand context while the context is constantly changing.
+         * the form, the software (hardware) is the part of the environment we have control on.
+         * software is never done: adaptive process.
+   * The design process
+     * We've seen that we can't do better than creating order by detecting misfits.
+     * So the quality of our software will depend on how its process reacts to these misfits.
+       * First, the process should make it easy to fix the misfits when detected.
+         * this happens at all scale: from your REPL to the bug reported by a user in production.
+       * But this is not enough, the fix of the misfit should be isolated to not generate misfits in other parts of the system.
+         * if each bug fix generates 2 new bugs, you're in trouble.
+     * The book then present a formal method for architects to identify the subsets of interacting forces. As Alexander explains in the preface, it is not the important aspect of the book and it doesn't concern us much for software since we don't have the physical constraints architects have.
+     * In software we create the relationships between our misfits. What is important to remember is that our subsystems, or modules, should be loosely coupled.
+     * I think we have now all the concepts we need to understand Parnas' paper.
+** Summary
+   * we make good form by creating order between form and context
+   * order is created by detecting misfits and removing them
+   * the quality of the software will depend on how the process helps this detection and fix of the misfits.
+* How?
+** Information Hiding (Parnas)
+   * KWIC system
+   * Modularization 1: flow chart (arbitrary formal order)
+     * what happens when we think of modularization simply as divide and conquer.
+   * Modularization 2: information hiding
+     * we isolate each design changes (potential misfits)
+   * Comparison
+     * table with impact of each design change on subsystems.
+** Beyond Information Hiding
+   * LISP cons cell
+     * Don't just look down, look up.
+     * Software parts of a larger whole.
+     * Can reuse existing libraries.
+   * Seq abstraction
+   * Transducers
+** Conclusion
+   * Also applies to large systems (microservices: http://martinfowler.com/articles/microservices.html)
+     * Actually apply to any man-made form.
